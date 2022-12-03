@@ -2,6 +2,8 @@
 import sys, json
 from datetime import datetime, timezone
 
+strtime = '%Y-%m-%d %H:%M:%S'
+
 def load_messages(filename):
     """Load the messages json dump."""
     with open(filename) as dump: return json.load(dump)
@@ -18,7 +20,7 @@ def timestamp(message):
     """Return the timestamp (in localtime) of a message."""
     utc = datetime.fromisoformat(message['timestamp'])
     local = utc.replace(tzinfo=timezone.utc).astimezone(tz=None)
-    return local.strftime('[%Y-%m-%d %H:%M:%S]')
+    return local.strftime(f'[{strtime}]')
 
 if __name__ == '__main__':
     if len(sys.argv) != 2:

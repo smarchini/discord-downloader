@@ -15,6 +15,20 @@ messages to fetch. The other commands use the output of this command.
 ./discord-fetch.py auth_token channel_id > john_doe.json
 ```
 
+If the history is huge, it might be convenient to fetch only the last messages
+up to a given timestamp. Timestamps are in localtime and they are formatted as
+`YYYY-MM-DD HH:HH:SS`.
+
+```bash
+./discord-fetch.py auth_token channel_id "2022-01-01 00:00:00" > history_2022.json
+```
+
+You can exploit this idea to update an old history file. Use
+[discord-chatlog.py](src/discord-chatlog.py) to see the timestamp of the last
+message in your `old.json` file, then fetch a `new.json` file using that
+timestamp and merge the two files together with `jq -cs '.[0] + .[1]' new.json
+old.json > updated.json` (see [jq](https://stedolan.github.io/jq/)).
+
 ### Get the chat log in plaintext
 To get the chat log in plaintext you can use
 [discord-chatlog.py](src/discord-chatlog.py). Like the other commands, it prints
